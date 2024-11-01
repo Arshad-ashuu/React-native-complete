@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../../firebaseConfig';
 import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, where } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
+import { router } from 'expo-router';
 
 export default function Todo() {
     const [task, setTask] = useState('');
@@ -15,21 +16,25 @@ export default function Todo() {
         fetchTodos();
     }, [user]);
 
+    
+    const addTodo = async () => {
+        if (user) {
+            await addDoc(todosCollection, {
+                 task,
+                 completed: false, 
+                 userId: user.uid
+             });
+            setTask('');
+            fetchTodos();
+        } else {
+            console.log("No user logged in");
+        }
+    };
     const fetchTodos = async () => {
         if (user) {
             const q = query(todosCollection, where("userId", "==", user.uid));
             const data = await getDocs(q);
             setTodos(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        } else {
-            console.log("No user logged in");
-        }
-    };
-
-    const addTodo = async () => {
-        if (user) {
-            await addDoc(todosCollection, { task, completed: false, userId: user.uid });
-            setTask('');
-            fetchTodos();
         } else {
             console.log("No user logged in");
         }
@@ -51,6 +56,9 @@ export default function Todo() {
         <SafeAreaView style={styles.safeArea}>
             <View style={styles.container}>
                 <Text style={styles.mainTitle}>Todo List</Text>
+                <TouchableOpacity onPress={() => router.push('/home')} style={styles.button}>
+          <Text style={styles.buttonText}>⬅️</Text>
+        </TouchableOpacity>
                 <View style={styles.inputContainer}>
                     <TextInput
                         placeholder="New Task"

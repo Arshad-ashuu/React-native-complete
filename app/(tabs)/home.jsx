@@ -12,10 +12,13 @@ const Index = () => {
       <Text style={styles.header}>Welcome back</Text>
       <View style={styles.groupB}>
         <TouchableOpacity onPress={() => router.replace('/TodoApp')} style={styles.button}>
-          <Text style={styles.buttonText}>Todo App</Text>
+          <Text style={styles.buttonText}>Todo</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => router.push('/CoreComponents')} style={styles.button}>
           <Text style={styles.buttonText}>Core Components</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.replace('/NotesApp')} style={styles.button}>
+          <Text style={styles.buttonText}>Notes</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -40,7 +43,7 @@ const styles = StyleSheet.create({
   groupB: {
     flexDirection: 'row', // Arrange buttons in a row
     justifyContent: 'space-between',
-    width: '80%',
+    width: '70%',
   },
   button: {
     flex: 1, // Make buttons evenly spread out
@@ -52,7 +55,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: 'bold',
   },
 });
